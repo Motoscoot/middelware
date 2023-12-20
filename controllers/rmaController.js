@@ -11,9 +11,20 @@ const jsforce = require("jsforce");
 
     const resultByCode = await conn.query(queryByCode);
 
-   
+    const CaseData = {
+        /*LoyaltyForce__ProductCode__c: isComplete(extra_code),
+        Odoo_id__c: isComplete(id),
+        magento_code__c: isComplete(magentoId),
+        Name: isCompleteProduct(name),
+        LoyaltyForce__ProductDescription__c: isComplete(description),
+        LoyaltyForce__SKU__c: isComplete(default_code),
+        LoyaltyForce__StandardPriceEur__c: isComplete(price),
+        LoyaltyForce__CategoryCode1__c: sfCategoryId,*/
+      };
+  
+      let response = {};
     
-    let response = {};
+
 
     /*if (resultByCode.totalSize !== 0) {
       response = await conn
@@ -82,8 +93,8 @@ const updateRMAOrder = async (req, res) => {
       return;
     }
     
-    const productData = {
-      Id: x_SalesforceId,
+    const caseData = {
+      /*Id: x_SalesforceId,
       LoyaltyForce__ProductCode__c: isComplete(extra_code),
       Odoo_id__c: isComplete(id),
       magento_code__c: isComplete(magentoId),
@@ -92,38 +103,39 @@ const updateRMAOrder = async (req, res) => {
       LoyaltyForce__SKU__c: isComplete(default_code),
       //o lst_price
       LoyaltyForce__StandardPriceEur__c: isComplete(price),
-      LoyaltyForce__CategoryCode1__c: sfCategoryId,
+      LoyaltyForce__CategoryCode1__c: sfCategoryId,*/
     };
 
     const response = await conn
-    .sobject("LoyaltyForce__Product__c")
-    .upsert(productData, 'Id');
+    .sobject("Case")
+    .upsert(caseData, 'Id');
   
 
-    if (!response.success) {
-      console.log(response);
-      await logErrorToSalesforce(conn, 'UPSERT ERROR', JSON.stringify(res), null);
-      res.status(201).json({ res: 'Error: UPSERT ERROR '});
-    } else {
-      console.log(`Operación exitosa: ${response.id}`);
-      res.status(200).json({ res: response.id });
-    }
+        if (!response.success) {
+        console.log(response);
+        await logErrorToSalesforce(conn, 'UPSERT ERROR', JSON.stringify(res), null);
+        res.status(201).json({ res: 'Error: UPSERT ERROR '});
+        } else {
+        console.log(`Operación exitosa: ${response.id}`);
+        res.status(200).json({ res: response.id });
+        }
   });
 };
 
 
 
-const logErrorToSalesforce = async (conn, error, additionalInfo) => {
-  const errorData = {
-    Name: 'Error in newPurchaseOrder method',
-    Error_Message__c: error.message,
-    Error_Stack__c: error.stack,
-    Additional_Information__c: additionalInfo
-  };
-}
+    const logErrorToSalesforce = async (conn, error, additionalInfo) => {
+        const errorData = {
+            Name: 'Error in newPurchaseOrder method',
+            Error_Message__c: error.message,
+            Error_Stack__c: error.stack,
+            Additional_Information__c: additionalInfo
+        };
+    }
 
-const isComplete = (value) => {
-  return value && value !== "false" && value !== "" ? value : "";
-};
-  }
+    const isComplete = (value) => {
+    return value && value !== "false" && value !== "" ? value : "";
+    };
+  
 //module.exports = { newProduct, updateProduct };
+})
