@@ -125,5 +125,5 @@ const logErrorToSalesforce = async (conn, error, additionalInfo) => {
 const isComplete = (value) => {
   return value && value !== "false" && value !== "" ? value : "";
 };
-
-module.exports = { newProduct, updateProduct };
+  }
+//module.exports = { newProduct, updateProduct };
