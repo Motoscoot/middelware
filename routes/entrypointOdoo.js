@@ -4,7 +4,7 @@ const router = express.Router();
 const partnerController = require('../controllers/partnerController');
 const productController = require('../controllers/productController');
 const purchaseController = require('../controllers/purchaseController');
-//const rmaController = require('../controllers/rmaController');
+const rmaController = require('../controllers/rmaController');
 const xmlController = require('../controllers/xmlController');
 const deliveryStatusController = require('../controllers/deliveryStatusController');
 
@@ -21,7 +21,7 @@ class EntrypointOdoo{
         this.app.post('/newStatus', deliveryStatusController.newDeliveryStatus);
 
        // this.app.post('/newRMA', rmaController.newRMAOrder);
-       //this.app.post('/updateRMA', rmaController.updateRMAOrder);
+       this.app.post('/updateRMA', rmaController.updateRMAOrder);
     }
 }
 
