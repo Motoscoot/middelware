@@ -84,35 +84,68 @@ const updateRMAOrder = async (req, res) => {
       return;
     }
     
-    let query = `SELECT Id, Status FROM Case WHERE Reference__c = '${name}' LIMIT 1`;
+    let query = `SELECT Id, Status, RecordType.Name FROM Case WHERE Reference__c = '${name}' LIMIT 1`;
     const result = await conn.query(query);
+    var newState = '';
 
     if (result.records && result.records.length > 0) {
-      const ticket = result.records[0];
-      if(ticket.LoyaltyForce__Status__c !== state) {
-        const response = await conn.sobject('LoyaltyForce__Ticket__c').update({
-          Id: ticket.Id,
-          LoyaltyForce__Status__c: state,
-          Estado_pedido__c: invoice_status != 'false' && invoice_status != false ? invoice_status : ''
+      const caso = result.records[0];
+      if(state == 'to_approve')
+      {
+        if(caso.RecordType.Name == 'RMA - Devoluciones')
+        {
+          newState = 'InProcess';
+        }
+        else if(caso.RecordType.Name == 'RMA- Garantía')
+        {
+          newState = 'WaitingForManufacturer';
+        }
+      }
+      else if(state == 'approved')
+      {
+        if(caso.RecordType.Name == 'RMA - Devoluciones')
+        {
+          newState = 'Authorized';
+        }
+        else if(caso.RecordType.Name == 'RMA- Garantía')
+        {
+          newState = 'Authorized';
+        }
+      }
+      else if(state == 'cancelled')
+      {
+        if(caso.RecordType.Name == 'RMA - Devoluciones')
+        {
+          newState = 'Rejected';
+        }
+        else if(caso.RecordType.Name == 'RMA- Garantía')
+        {
+          newState = 'Rejected';
+        }
+      }
+      if(newState !== '') {
+        const response = await conn.sobject('Case').update({
+          Id: caso.Id,
+          Status: newState
         });
         
         if(response.success) {
-          console.log(`Estado del ticket actualizado con éxito: ${response.id}`);
-          res.status(200).json({ res: `Ticket ${response.id} actualizado con éxito.` });
+          console.log(`Estado del caso actualizado con éxito: ${response.id}`);
+          res.status(200).json({ res: `Caso ${response.id} actualizado con éxito.` });
         } else {
-          console.log('Error al actualizar el estado del ticket');
+          console.log('Error al actualizar el estado del caso');
           await logErrorToSalesforce(conn, 'UPDATE ERROR', JSON.stringify(response), null);
-          res.status(201).json({ res: 'Error: Error al actualizar el estado del ticket.' });
+          res.status(201).json({ res: 'Error: Error al actualizar el estado del caso.' });
         }
       } else {
-        console.log('El estado del ticket ya está en el valor proporcionado');
-        res.status(200).json({ res: 'Operación omitida: El estado del ticket ya está en el valor proporcionado.' });
+        console.log('El estado del caso ya está en el valor correcto');
+        res.status(200).json({ res: 'Operación omitida: El estado del caso ya está en el valor correcto.' });
       }
 
     } else {
-      console.log('No se encontró el ticket especificado');
+      console.log('No se encontró el caso especificado');
       await logErrorToSalesforce(conn, 'GET ERROR', JSON.stringify(result), null);
-      res.status(201).json({ res: 'Error: No se encontró el ticket especificado.' });
+      res.status(201).json({ res: 'Error: No se encontró el caso especificado.' });
     }
   });
 };
