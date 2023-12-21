@@ -54,30 +54,21 @@ const jsforce = require("jsforce");
   });
 };*/
 
+
 const updateRMAOrder = async (req, res) => {
+  console.log("Nueva llamada entrante - updateRMA");
+  console.log("Body: ", req.body);
   const {
-    x_SalesforceId,
-    name,
     id,
-    description,
-    list_price,
-    price,
-    default_code,
-    type,
-    categ_id,
-    uom_id,
-    magentoId,
+    state,
+    x_SalesforceId,
     username: sfUsername,
     password: sfPassword,
     clientID: clientId,
     clientSecret,
     loginUrl,
   } = req.body;
-  if (!x_SalesforceId) {
-    newProduct(req, res);
-    console.info("Creación iniciada");
-    return;
-  }
+  
 
   const conn = new jsforce.Connection({
     oauth2: {
