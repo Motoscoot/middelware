@@ -20,7 +20,6 @@ class EntrypointOdoo{
         this.app.post('/updatePurchase', purchaseController.updatePurchase);
         this.app.post('/newStatus', deliveryStatusController.newDeliveryStatus);
 
-        
        // this.app.post('/newRMA', rmaController.newRMAOrder);
        this.app.post('/updateRMA', rmaController.updateRMAOrder);
     }
