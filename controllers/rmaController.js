@@ -57,7 +57,7 @@ const updateRMAOrder = async (req, res) => {
         }
         else if(caso.RecordType.Name == 'RMA- Garantía')
         {
-          console.log('garantía');
+          console.log('garantia');
           newState = 'Authorized';
         }
       }
