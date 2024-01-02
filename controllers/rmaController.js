@@ -49,15 +49,12 @@ const updateRMAOrder = async (req, res) => {
       }
       else if(state == 'approved')
       {
-        console.log('estado aprobado');
         if(caso.RecordType.Name == 'RMA - Devoluciones')
         {
-          console.log('tipo de registro devoluciones');
           newState = 'Authorized';
         }
         else if(caso.RecordType.Name == 'RMA- Garantía')
         {
-          console.log('tipo de registro garantia');
           newState = 'Authorized';
         }
       }
