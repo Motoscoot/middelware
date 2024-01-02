@@ -50,7 +50,7 @@ const updateRMAOrder = async (req, res) => {
       else if(state == 'approved')
       {
         console.log('estado aprobado');
-        if(caso.RecordType.Name == 'RMA - Devoluciones')
+        if(caso.RecordType.Name == 'RMA - Devolucionesxx')
         {
           console.log('tipo de registro devoluciones');
           newState = 'Authorized';
