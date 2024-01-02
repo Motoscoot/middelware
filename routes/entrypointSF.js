@@ -3,6 +3,7 @@ const router = express.Router();
 
 const accountController = require('../controllers/accountController');
 const rmaController = require('../controllers/rmaControllerToOdoo');
+const rmaControllerUpdate = require('../controllers/rmaController');
 
 
 class EntryPointSF{
@@ -11,7 +12,8 @@ class EntryPointSF{
         this.app.post('/newAccount', accountController.newAccount);
         this.app.post('/updateAccount', accountController.updateAccount);
         this.app.post('/newRma', rmaController.newCase);
-        this.app.post('/updateRma', rmaController.updateCase);
+        //this.app.post('/updateRma', rmaController.updateCase);
+        this.app.post('/updateRMA', rmaControllerUpdate.updateRMAOrder);
     }   
 }
 
