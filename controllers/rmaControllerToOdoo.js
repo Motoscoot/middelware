@@ -29,7 +29,7 @@ const newCase = async (req, res) => {
     {
         let productID = req.body.product_id;
     }
-    
+    console.log('productID ' + productID);
         
     //let productUOMQty = req.body.Quantity;
     //let productUOM = req.body.UnitOfMeasure;
@@ -47,6 +47,7 @@ const newCase = async (req, res) => {
             //'product_uom': productUOM,
             'create_date': new Date()
         });
+        console.log('inParams ' + inParams);
         var params = [];
         params.push(inParams);
         console.log('Before execute');
