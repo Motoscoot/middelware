@@ -47,8 +47,8 @@ const newCase = async (req, res) => {
             'name': caseName,
             'partner_id': partnerID,
             'product_id': productID,
-            'product_uom_qty': productUOMQty,
-            'product_uom': productUOM,
+            //'product_qty': productUOMQty,
+            'uom_id': productUOM,
             'create_date': new Date()
         });
         console.log('inParams ' + inParams);
