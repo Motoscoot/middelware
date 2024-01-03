@@ -3,12 +3,12 @@ const Odoo = require('odoo-xmlrpc');
 const provincias = require('./utils/getCodProvincia');
 
 const odoo = new Odoo({
-    url:'http://kaizenstep-odoo-doctorenergy.odoo.com/',
+    url:'https://b2b.motoscoot.net/',
     port:'80',
-    db:'kaizenstep-odoo-doctorenergy-production-6032403',
+    //db:'kaizenstep-odoo-doctorenergy-production-6032403',
     //db: 'kaizenstep-odoo-sebas',
-    username:'slopez@kaizenstep.com',
-    password:'SalesOrg2022!'
+    username:'motoscoot@kaizenstep.com',
+    password:'tgVv&74%93nc'
 })
 /*
 const odoo = new Odoo({
@@ -34,21 +34,28 @@ const newCase = async (req, res) => {
     let caseID = req.body.Id;
     let caseName = req.body.Subject;
     let partnerID = req.body.AccountId;
-    let productID = req.body.ProductId;
-    let productUOMQty = req.body.Quantity;
-    let productUOM = req.body.UnitOfMeasure;
-
+    if(req.body.ProductId != null)
+    {
+        let productID = req.body.ProductId;
+    }
+    else
+    {
+        let productID = '';
+    }
+    //let productUOMQty = req.body.Quantity;
+    //let productUOM = req.body.UnitOfMeasure;
+    console.log('Before connection');
     odoo.connect(function (err) {
         if (err) { return console.log(err); }
         console.log('Connected to Odoo server.');
         var inParams = [];
         inParams.push({
-            'id': caseID,
+            //'id': caseID,
             'name': caseName,
             'partner_id': partnerID,
-            'product_id': productID,
-            'product_uom_qty': productUOMQty,
-            'product_uom': productUOM,
+            //'product_id': productID,
+            //'product_uom_qty': productUOMQty,
+            //'product_uom': productUOM,
             'create_date': new Date()
         });
         var params = [];
