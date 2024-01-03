@@ -24,14 +24,13 @@ const newCase = async (req, res) => {
     let caseID = req.body.id;
     let caseName = req.body.name;
     let partnerID = req.body.partner_id;
+    let productID = '';
     if(req.body.product_id != null)
     {
         let productID = req.body.product_id;
     }
-    else
-    {
-        let productID = '';
-    }
+    
+        
     //let productUOMQty = req.body.Quantity;
     //let productUOM = req.body.UnitOfMeasure;
     console.log('Before connection');
