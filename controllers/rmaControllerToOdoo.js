@@ -25,9 +25,11 @@ const newCase = async (req, res) => {
     let caseName = req.body.name;
     let partnerID = req.body.partner_id;
     let productID = '';
+    console.log('req.body.partner_id ' + req.body.partner_id);
+    console.log('req.body.product_id ' + req.body.product_id);
     if(req.body.product_id != null)
     {
-        let productID = req.body.product_id;
+        productID = req.body.product_id;
     }
     console.log('productID ' + productID);
         
