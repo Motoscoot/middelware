@@ -3,11 +3,11 @@ const Odoo = require('odoo-xmlrpc');
 //const provincias = require('./utils/getCodProvincia');
 
 const odoo = new Odoo({
-    url:'https://b2b.motoscoot.net/',
+    url:'https://xxb2b.motoscoot.net/',
     port:'80',
     //db:'kaizenstep-odoo-doctorenergy-production-6032403',
     //db: 'kaizenstep-odoo-sebas',
-    username:'motoscoot@kaizenstep.comxx',
+    username:'motoscoot@kaizenstep.com',
     password:'tgVv&74%93nc'
 })
 /*
