@@ -1,14 +1,9 @@
 
 const Odoo = require('odoo-xmlrpc');
 
-/*url = <insert server URL>
-db = <insert database name>
-username = 'admin'
-password = <insert password for your admin user (default: admin)></insert>*/
 
 const odoo = new Odoo({
     url:'https://b2b.motoscoot.net/',
-    //port:'80',
     db: 'motoscoot',
     username:'motoscoot@kaizenstep.com',
     password:'tgVv&74%93nc'
@@ -23,14 +18,6 @@ const odoo = new Odoo({
     password:'SalesOrg2022!'
 })
 */
-/*const odoo = new Odoo({
-    url:'http://kaizenstep-odoo-sebas-test-nuevos-6641683.dev.odoo.com/',
-    port:'80',
-    db:'kaizenstep-odoo-sebas-test-nuevos-6641683',
-    //db: 'kaizenstep-odoo-sebas',
-    username:'slopez@kaizenstep.com',
-    password:'SalesOrg2022!'
-})*/
 
 const newCase = async (req, res) => {
     console.log('Create Case');
