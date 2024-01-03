@@ -7,7 +7,7 @@ const odoo = new Odoo({
     port:'80',
     //db:'kaizenstep-odoo-doctorenergy-production-6032403',
     //db: 'kaizenstep-odoo-sebas',
-    username:'motoscoot@kaizenstep.com',
+    username:'motoscoot@kaizenstep.comxx',
     password:'tgVv&74%93nc'
 })
 /*
