@@ -22,7 +22,7 @@ class EntrypointOdoo{
 
         
        // this.app.post('/newRMA', rmaController.newRMAOrder);
-       //this.app.post('/updateRMA', rmaController.updateRMAOrder);
+       this.app.post('/updateRMA', rmaController.updateRMAOrder);
     }
 }
 
