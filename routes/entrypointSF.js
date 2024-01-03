@@ -12,7 +12,6 @@ class EntryPointSF{
         this.app.post('/newAccount', accountController.newAccount);
         this.app.post('/updateAccount', accountController.updateAccount);
         this.app.post('/newRma', rmaController.newCase);
-        this.app.post('/newOrderRma', rmaController.newCaseRM);
         //this.app.post('/updateRma', rmaController.updateCase);
         this.app.post('/updateRMA', rmaControllerUpdate.updateRMAOrder);
     }   
