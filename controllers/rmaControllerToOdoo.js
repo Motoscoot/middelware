@@ -8,8 +8,8 @@ const odoo = new Odoo({
     username:'motoscoot@kaizenstep.com',
     password:'tgVv&74%93nc'
 })
-
-const odoo2 = new Odoo({
+/*
+const odoo = new Odoo({
     url:'http://kaizenstep-odoo-doctorenergy.odoo.com/',
     port:'80',
     db:'kaizenstep-odoo-doctorenergy-production-6032403',
@@ -17,9 +17,9 @@ const odoo2 = new Odoo({
     username:'slopez@kaizenstep.com',
     password:'SalesOrg2022!'
 })
+*/
 
-
-const newCaseRM = async (req, res) => {
+const newCase = async (req, res) => {
     console.log('Create Case');
     let caseID = req.body.Id;
     let caseName = req.body.Subject;
@@ -67,54 +67,6 @@ const newCaseRM = async (req, res) => {
     });
 }
 
-const newCase = async (req, res) => {
-    console.log('Create Case');
-    let caseID = req.body.Id;
-    let caseName = req.body.Subject;
-    let partnerID = req.body.AccountId;
-    if(req.body.ProductId != null)
-    {
-        let productID = req.body.ProductId;
-    }
-    else
-    {
-        let productID = '';
-    }
-    //let productUOMQty = req.body.Quantity;
-    //let productUOM = req.body.UnitOfMeasure;
-    console.log('Before connection');
-    odoo2.connect(function (err) {
-        if (err) { return console.log(err); }
-        console.log('Connected to Odoo server.');
-        var inParams = [];
-        inParams.push({
-            //'id': caseID,
-            'name': caseName,
-            'partner_id': partnerID,
-            //'product_id': productID,
-            //'product_uom_qty': productUOMQty,
-            //'product_uom': productUOM,
-            'create_date': new Date()
-        });
-        var params = [];
-        params.push(inParams);
-        console.log('Before execute');
-        odoo2.execute_kw('rma.order.line', 'create', params, function (err, value) {
-            if (err) {
-                console.log('error');
-                res.status(500).json({
-                    error: 'Error al realizar la insercion en odoo' + err
-                })
-                 return console.log(err); 
-            }
-            console.log('Result: ', value);
-            res.json({
-                res : value
-            });
-        });
-    });
-}
-
 const updateCase = async (req, res) => {
     console.log('Update Case');
     let idCase = parseInt(req.body.idCase);
@@ -124,7 +76,7 @@ const updateCase = async (req, res) => {
     let productUOMQty = req.body.Quantity;
     let productUOM = req.body.UnitOfMeasure;
 
-    odoo2.connect(function (err) {
+    odoo.connect(function (err) {
         if (err) { return console.log(err); }
         console.log('Connected to Odoo server.');
         var inParams = [];
@@ -138,7 +90,7 @@ const updateCase = async (req, res) => {
         });
         var params = [];
         params.push(inParams);
-        odoo2.execute_kw('order.rma', 'write', params, function (err, value) {
+        odoo.execute_kw('order.rma', 'write', params, function (err, value) {
             if (err) {
                 res.status(500).json({
                     error: 'Error al realizar la insercion en odoo' + err
