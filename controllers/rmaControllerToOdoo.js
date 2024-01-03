@@ -53,6 +53,7 @@ const newCase = async (req, res) => {
             'out_route_id': 16,
             'in_warehouse_id': 1,
             'out_warehouse_id': 1,
+            'location_id': 1668,
             'create_date': new Date()
         });
         console.log('inParams ' + inParams);
