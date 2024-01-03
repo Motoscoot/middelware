@@ -1,7 +1,7 @@
 
 const Odoo = require('odoo-xmlrpc');
 
-/*const odoo = new Odoo({
+const odoo = new Odoo({
     url:'https://b2b.motoscoot.net/',
     port:'80',
     //db:'kaizenstep-odoo-doctorenergy-production-6032403',
@@ -9,7 +9,7 @@ const Odoo = require('odoo-xmlrpc');
     username:'motoscoot@kaizenstep.com',
     password:'tgVv&74%93nc'
 })
-*/
+/*
 const odoo = new Odoo({
     url:'http://kaizenstep-odoo-doctorenergy.odoo.com/',
     port:'80',
@@ -18,7 +18,7 @@ const odoo = new Odoo({
     username:'slopez@kaizenstep.com',
     password:'SalesOrg2022!'
 })
-
+*/
 /*const odoo = new Odoo({
     url:'http://kaizenstep-odoo-sebas-test-nuevos-6641683.dev.odoo.com/',
     port:'80',
