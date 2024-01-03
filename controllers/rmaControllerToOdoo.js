@@ -2,11 +2,15 @@
 const Odoo = require('odoo-xmlrpc');
 //const provincias = require('./utils/getCodProvincia');
 
+/*url = <insert server URL>
+db = <insert database name>
+username = 'admin'
+password = <insert password for your admin user (default: admin)></insert>*/
+
 const odoo = new Odoo({
-    url:'https://xxb2b.motoscoot.net/',
-    port:'80',
-    //db:'kaizenstep-odoo-doctorenergy-production-6032403',
-    //db: 'kaizenstep-odoo-sebas',
+    url:'https://b2b.motoscoot.net/',
+    //port:'80',
+    db: 'motoscoot',
     username:'motoscoot@kaizenstep.com',
     password:'tgVv&74%93nc'
 })
