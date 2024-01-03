@@ -36,7 +36,7 @@ const newCase = async (req, res) => {
     //let productUOMQty = req.body.Quantity;
     //let productUOM = req.body.UnitOfMeasure;
     let productUOMQty = 1;
-    let productUOM = 'Unidad(es)';
+    let productUOM = 1;
     console.log('Before connection');
     odoo.connect(function (err) {
         if (err) { return console.log(err); }
