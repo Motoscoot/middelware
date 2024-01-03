@@ -1,5 +1,6 @@
 
 const Odoo = require('odoo-xmlrpc');
+const provincias = require('./utils/getCodProvincia');
 
 const odoo = new Odoo({
     url:'https://b2b.motoscoot.net/',
