@@ -50,6 +50,7 @@ const newCase = async (req, res) => {
             //'product_qty': productUOMQty,
             'uom_id': productUOM,
             'in_route_id': 16,
+            'out_route_id': 16,
             'create_date': new Date()
         });
         console.log('inParams ' + inParams);
