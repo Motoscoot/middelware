@@ -60,8 +60,10 @@ const newCase = async (req, res) => {
         });
         var params = [];
         params.push(inParams);
-        odoo.execute_kw('order.rma', 'create', params, function (err, value) {
+        console.log('Before execute');
+        odoo.execute_kw('rma.order.line', 'create', params, function (err, value) {
             if (err) {
+                console.log('error');
                 res.status(500).json({
                     error: 'Error al realizar la insercion en odoo' + err
                 })
