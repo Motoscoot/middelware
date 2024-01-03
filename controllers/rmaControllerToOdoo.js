@@ -21,12 +21,12 @@ const odoo = new Odoo({
 
 const newCase = async (req, res) => {
     console.log('Create Case');
-    let caseID = req.body.Id;
-    let caseName = req.body.Subject;
-    let partnerID = req.body.AccountId;
-    if(req.body.ProductId != null)
+    let caseID = req.body.id;
+    let caseName = req.body.name;
+    let partnerID = req.body.partner_id;
+    if(req.body.product_id != null)
     {
-        let productID = req.body.ProductId;
+        let productID = req.body.product_id;
     }
     else
     {
