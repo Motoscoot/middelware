@@ -10,6 +10,16 @@ const odoo = new Odoo({
     username:'slopez@kaizenstep.com',
     password:'SalesOrg2022!'
 })
+/*
+const odoo = new Odoo({
+    url:'http://kaizenstep-odoo-doctorenergy.odoo.com/',
+    port:'80',
+    db:'kaizenstep-odoo-doctorenergy-production-6032403',
+    //db: 'kaizenstep-odoo-sebas',
+    username:'slopez@kaizenstep.com',
+    password:'SalesOrg2022!'
+})
+*/
 /*const odoo = new Odoo({
     url:'http://kaizenstep-odoo-sebas-test-nuevos-6641683.dev.odoo.com/',
     port:'80',
