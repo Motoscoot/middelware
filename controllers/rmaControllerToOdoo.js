@@ -1,6 +1,5 @@
 
 const Odoo = require('odoo-xmlrpc');
-//const provincias = require('./utils/getCodProvincia');
 
 /*url = <insert server URL>
 db = <insert database name>
