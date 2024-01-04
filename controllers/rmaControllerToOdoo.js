@@ -25,8 +25,7 @@ const newCase = async (req, res) => {
     let caseName = req.body.name;
     let partnerID = req.body.partner_id;
     let productID = '';
-    console.log('req.body.partner_id ' + req.body.partner_id);
-    console.log('req.body.product_id ' + req.body.product_id);
+
     if(req.body.product_id != null)
     {
         productID = req.body.product_id;
@@ -56,7 +55,7 @@ const newCase = async (req, res) => {
             'location_id': 1668,
             'create_date': new Date()
         });
-        console.log('inParams ' + inParams);
+
         var params = [];
         params.push(inParams);
         console.log('Before execute');
