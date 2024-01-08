@@ -88,7 +88,7 @@ const newProduct = async (req, res) => {
 
     if (!sfCategoryId) {
       await logErrorToSalesforce(conn, 'GET ERROR', JSON.stringify(res), null);
-      res.status(201).json({ res: 'Error: Category not found. '});
+      res.status(204).json({ res: 'Error: Category not found. '});
       return;
     }
 
@@ -125,7 +125,7 @@ const newProduct = async (req, res) => {
     if (!response.success) {
       console.log(response);
       await logErrorToSalesforce(conn, 'INSERT ERROR', JSON.stringify(res), null);
-      res.status(201).json({ res: 'Error: Category not found. '});
+      res.status(205).json({ res: 'Error: Category not found. '});
     } else {
       console.log(`Operación exitosa: ${response.id}`);
       res.status(200).json({ res: response.id });
