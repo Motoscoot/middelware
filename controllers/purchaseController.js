@@ -500,6 +500,7 @@ const updatePurchase = async (req, res) => {
         res.status(200).json({ res: 'Operación omitida: El estado del ticket ya está en el valor proporcionado.' });
       }
 
+      
     } else {
       console.log('No se encontró el ticket especificado');
       await logErrorToSalesforce(conn, 'GET ERROR', JSON.stringify(result), null);
