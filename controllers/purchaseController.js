@@ -493,18 +493,17 @@ const updatePurchase = async (req, res) => {
         } else {
           console.log('Error al actualizar el estado del ticket');
           await logErrorToSalesforce(conn, 'UPDATE ERROR', JSON.stringify(response), null);
-          res.status(202).json({ res: 'Error: Error al actualizar el estado del ticket.' });
+          res.status(201).json({ res: 'Error: Error al actualizar el estado del ticket.' });
         }
       } else {
         console.log('El estado del ticket ya está en el valor proporcionado');
         res.status(200).json({ res: 'Operación omitida: El estado del ticket ya está en el valor proporcionado.' });
       }
 
-      
     } else {
       console.log('No se encontró el ticket especificado');
       await logErrorToSalesforce(conn, 'GET ERROR', JSON.stringify(result), null);
-      res.status(203).json({ res: 'Error: No se encontró el ticket especificado.' });
+      res.status(201).json({ res: 'Error: No se encontró el ticket especificado.' });
     }
   });
 };
