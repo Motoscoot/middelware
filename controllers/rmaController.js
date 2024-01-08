@@ -8,6 +8,7 @@ const updateRMAOrder = async (req, res) => {
     id,
     state,
     name,
+    description,
     username: sfUsername,
     password: sfPassword,
     clientID: clientId,
@@ -30,9 +31,10 @@ const updateRMAOrder = async (req, res) => {
       return;
     }
     
-    let query = `SELECT Id, Status, RecordType.Name FROM Case WHERE External_Id__c = '${id}' LIMIT 1`;
+    let query = `SELECT Id, Status, RecordType.Name, Notas_internas__c FROM Case WHERE External_Id__c = '${id}' LIMIT 1`;
     const result = await conn.query(query);
     var newState = '';
+    var NotasInternas = '';
 
     if (result.records && result.records.length > 0) {
       const caso = result.records[0];
@@ -69,7 +71,14 @@ const updateRMAOrder = async (req, res) => {
           newState = 'Rejected';
         }
       }
-      if(newState !== '') {
+      //actualización de notas internas
+      if(description != null && description != '' && (caso.RecordType.Name == 'RMA - Devoluciones' || caso.RecordType.Name == 'RMA- Garantía'))
+      {
+         NotasInternas = description;
+
+      }
+
+      if(newState !== '' && NotasInternas == '') {
         const response = await conn.sobject('Case').update({
           Id: caso.Id,
           Status: newState
@@ -83,10 +92,44 @@ const updateRMAOrder = async (req, res) => {
           await logErrorToSalesforce(conn, 'UPDATE ERROR', JSON.stringify(response), null);
           res.status(201).json({ res: 'Error: Error al actualizar el estado del caso.' });
         }
-      } else {
+      } 
+      /*else {
         console.log('El estado del caso ya está en el valor correcto');
         res.status(200).json({ res: 'Operación omitida: El estado del caso ya está en el valor correcto.' });
+      }*/
+
+      else if(newState == '' && NotasInternas != '') {
+        const response = await conn.sobject('Case').update({
+          Id: caso.Id,
+          Notas_internas__c: NotasInternas
+        });
+        
+        if(response.success) {
+          console.log(`Notas internas del caso actualizadas con éxito: ${response.id}`);
+          res.status(200).json({ res: `Caso ${response.id} actualizado con éxito.` });
+        } else {
+          console.log('Error al actualizar Notas internas del caso');
+          await logErrorToSalesforce(conn, 'UPDATE ERROR', JSON.stringify(response), null);
+          res.status(201).json({ res: 'Error: Error al actualizar las Notas internas del caso.' });
+        }
       }
+      
+      else if(newState != '' && NotasInternas != '') {
+        const response = await conn.sobject('Case').update({
+          Id: caso.Id,
+          Status: newState,
+          Notas_internas__c: NotasInternas
+        });
+        
+        if(response.success) {
+          console.log(`Notas internas y estado del caso actualizados con éxito: ${response.id}`);
+          res.status(200).json({ res: `Caso ${response.id} actualizado con éxito.` });
+        } else {
+          console.log('Error al actualizar Notas internas y estado del caso');
+          await logErrorToSalesforce(conn, 'UPDATE ERROR', JSON.stringify(response), null);
+          res.status(201).json({ res: 'Error: Error al actualizar las Notas internas y estado del caso.' });
+        }
+      } 
 
     } else {
       console.log('No se encontró el caso especificado');
