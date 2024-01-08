@@ -134,7 +134,7 @@ const updateRMAOrder = async (req, res) => {
     } else {
       console.log('No se encontró el caso especificado');
       await logErrorToSalesforce(conn, 'GET ERROR', JSON.stringify(result), null);
-      res.status(201).json({ res: 'Error: No se encontró el caso especificado.' });
+      res.status(200).json({ res: 'Error: No se encontró el caso especificado.' });
     }
   });
 };
