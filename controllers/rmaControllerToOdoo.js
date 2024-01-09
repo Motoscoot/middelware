@@ -53,6 +53,7 @@ const newCase = async (req, res) => {
             'in_warehouse_id': 1,
             'out_warehouse_id': 1,
             'location_id': 1668,
+            'operation_id': 122,
             'create_date': new Date()
         });
 
