@@ -266,7 +266,7 @@ const newPurchaseOrder = async (req, res) => {
       if (!accountId) {
         console.log('Error al crear el cliente');
         await logErrorToSalesforce(conn, 'INSERT ERROR', JSON.stringify(res), null);
-        res.status(201).json({ res: 'Error: Error al insertar el cliente. '});
+        res.status(202).json({ res: 'Error: Error al insertar el cliente. '});
         return;
       }
     }else{
@@ -286,7 +286,7 @@ const newPurchaseOrder = async (req, res) => {
           }else{
             console.log('Error al reculperar el cliente');
             await logErrorToSalesforce(conn, 'GET ERROR', JSON.stringify(result), null);
-            res.status(201).json({ res: 'Error: Error al recuperar el cliente. '});
+            res.status(203).json({ res: 'Error: Error al recuperar el cliente. '});
             return;
           }
         }
@@ -371,7 +371,7 @@ const newPurchaseOrder = async (req, res) => {
 
     if (!response.success) {
       await logErrorToSalesforce(conn, 'CREATE ERROR', JSON.stringify(response), null);
-      res.status(201).json({ res: 'Error: Error al insertar el ticket. '});
+      res.status(204).json({ res: 'Error: Error al insertar el ticket. '});
     } else {
       console.log(`Operación exitosa: ${response.id}`);
       let index = 0;
@@ -434,7 +434,7 @@ const newPurchaseOrder = async (req, res) => {
         if (!ticketLineResponse.success) {
           console.log(ticketLineResponse);
           await logErrorToSalesforce(conn, 'INSERT ERROR', JSON.stringify(res), null);
-          res.status(201).json({ res: 'Error: Error al insertar la linea de ticket. '});
+          res.status(205).json({ res: 'Error: Error al insertar la linea de ticket. '});
           return;
         }
       }
