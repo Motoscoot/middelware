@@ -81,8 +81,9 @@ const newProduct = async (req, res) => {
     }
     console.log("antes");
     console.log("default_code" + default_code);
+    console.log("extra_code" + extra_code);
     console.log("id" + id);
-    const queryByCode = `SELECT Id FROM LoyaltyForce__Product__c WHERE LoyaltyForce__ProductCode__c = '${default_code}'`;
+    const queryByCode = `SELECT Id FROM LoyaltyForce__Product__c WHERE LoyaltyForce__ProductCode__c = '${extra_code}'`;
 
     const resultByCode = await conn.query(queryByCode);
 
