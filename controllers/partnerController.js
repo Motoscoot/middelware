@@ -192,7 +192,7 @@ const updatePartner = async (req, res) => {
     console.log("Body: ", req.body);
 
     const {
-        x_SalesforceId, name, email, phone, mobile, nif, language, jobposition, website,
+        x_SalesforceId, id, name, email, phone, mobile, nif, language, jobposition, website,
         street, city, cp, username: sfUsername, password: sfPassword, clientID: clientId,
         clientSecret, loginUrl,
     } = req.body;
