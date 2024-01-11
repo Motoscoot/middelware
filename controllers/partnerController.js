@@ -225,15 +225,15 @@ const updatePartner = async (req, res) => {
       }
 
 
-    if (!x_SalesforceId) {
+    /*if (!x_SalesforceId) {
         newPartner(req, res);
         console.info('Creación iniciada');
         return;
-    }
+    }*/
     if (!isValidEmail(email)) {
         console.log('INVALID_EMAIL: Email provided is not valid');
         await logErrorToSalesforce(conn, new Error('INVALID_EMAIL'), 'Email provided is not valid');
-        res.status(200).json({ res: 'Error' });
+        res.status(201).json({ res: 'Email provided is not valid' });
         return;
     }
 
@@ -252,7 +252,7 @@ const updatePartner = async (req, res) => {
         }
 
         const accountData = {
-            Id: x_SalesforceId,
+            //Id: x_SalesforceId,
             FirstName: isComplete(FirstName),
             LastName: isComplete(LastName),
             PersonEmail: isComplete(email),
@@ -269,13 +269,13 @@ const updatePartner = async (req, res) => {
             isCompany__c: isCompany,
         };
 
-        const response = await conn.sobject("Account").update(accountData);
+        const response = await conn.sobject("Account").upsert(accountData,'LoyaltyForce__External_Id__c');
 
         if (!response.success) {
            
             console.log(response);
             await logErrorToSalesforce(conn, new Error('UPDATE_ERROR'), JSON.stringify(response));
-            res.status(200).json({ res: 'Error' });
+            res.status(201).json({ res: 'Error: UPSERT ERROR '});
         } else {
             console.log(contacts);
             /*if (Array.isArray(contacts)) {
