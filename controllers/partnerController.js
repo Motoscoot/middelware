@@ -280,9 +280,12 @@ const updatePartner = async (req, res) => {
 
         if (!response.success) {
            
+            const errorMessage = "error al actualizar la cuenta.";
+            await logErrorToSalesforce(conn, { message: errorMessage, stack: '' }, 'error al actualizar la cuenta.');
+
             console.log(response);
             await logErrorToSalesforce(conn, new Error('UPDATE_ERROR'), JSON.stringify(response));
-            res.status(201).json({ res: 'Error: UPSERT ERROR '});
+            res.status(200).json({ res: 'Error: UPSERT ERROR '});
         } else {
             /*console.log(contacts);
             if (Array.isArray(contacts)) {
