@@ -256,7 +256,7 @@ const updatePartner = async (req, res) => {
 
         const accountData = {
             //Id: x_SalesforceId,
-            Odoo_id__c: isComplete(id),
+            Odoo_Id__c: isComplete(id),
             FirstName: isComplete(FirstName),
             LastName: isComplete(LastName),
             PersonEmail: isComplete(email),
@@ -273,7 +273,7 @@ const updatePartner = async (req, res) => {
             isCompany__c: isCompany,
         };
 
-        const response = await conn.sobject("Account").upsert(accountData,'Odoo_id__c');
+        const response = await conn.sobject("Account").upsert(accountData,'Odoo_Id__c');
 
         if (!response.success) {
            
