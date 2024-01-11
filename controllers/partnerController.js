@@ -253,7 +253,6 @@ const updatePartner = async (req, res) => {
             console.log(err);
             return;
         }
-        console.log("antes const");
         const accountData = {
             //Id: x_SalesforceId,
             Odoo_id__c: isComplete(id),
@@ -273,7 +272,7 @@ const updatePartner = async (req, res) => {
             isCompany__c: isCompany,
         };
         console.log("antes upsert");
-        const response = await conn.sobject("Account").upsert(accountData,'Odoo_id__c');
+        const response = await conn.sobject("Account").upsert(accountData,'LoyaltyForce__External_Id__c');
         console.log("después upsert");
 
         if (!response.success) {
