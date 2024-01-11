@@ -79,7 +79,9 @@ const newProduct = async (req, res) => {
       console.log(err);
       return;
     }
-
+    console.log("antes");
+    console.log("default_code" + default_code);
+    console.log("id" + id);
     const queryByCode = `SELECT Id FROM LoyaltyForce__Product__c WHERE LoyaltyForce__ProductCode__c = '${default_code}'`;
 
     const resultByCode = await conn.query(queryByCode);
@@ -106,11 +108,13 @@ const newProduct = async (req, res) => {
     let response = {};
 
     if (resultByCode.totalSize !== 0) {
+      console.log("upsert");
       response = await conn
         .sobject("LoyaltyForce__Product__c")
         .upsert(productData, "LoyaltyForce__ProductCode__c");
         response.id = resultByCode.records[0].Id;  // Corrección aquí: cambiar 'resultByEmail' por 'resultByCode'
       } else {
+        console.log("create");
       try {
         response = await conn
           .sobject("LoyaltyForce__Product__c")
