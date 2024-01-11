@@ -253,6 +253,7 @@ const updatePartner = async (req, res) => {
             console.log(err);
             return;
         }
+
         const accountData = {
             //Id: x_SalesforceId,
             Odoo_id__c: isComplete(id),
@@ -268,7 +269,9 @@ const updatePartner = async (req, res) => {
             ShippingPostalCode: truncatePostalCode(isComplete(cp)),
             LoyaltyForce__Languages__pc: isComplete(language),
             LoyaltyForce__External_Id__c: isComplete(email),
+            LoyaltyForce__SourceChannel__pc: "Ecommerce",
             LoyaltyForce__LoyaltyStatus__pc: "InLoyalty",
+            LoyaltyForce__LifecycleStage__pc: "Customer account",
             isCompany__c: isCompany,
         };
         console.log("antes upsert");
