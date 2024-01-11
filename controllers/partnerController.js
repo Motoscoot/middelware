@@ -188,6 +188,9 @@ const newPartner = async (req, res) => {
 }
 
 const updatePartner = async (req, res) => {
+    console.log("Nueva llamada entrante - updatePartner");
+    console.log("Body: ", req.body);
+
     const {
         x_SalesforceId, name, email, phone, mobile, nif, language, jobposition, website,
         street, city, cp, username: sfUsername, password: sfPassword, clientID: clientId,
