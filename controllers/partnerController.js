@@ -281,8 +281,8 @@ const updatePartner = async (req, res) => {
             await logErrorToSalesforce(conn, new Error('UPDATE_ERROR'), JSON.stringify(response));
             res.status(201).json({ res: 'Error: UPSERT ERROR '});
         } else {
-            console.log(contacts);
-            /*if (Array.isArray(contacts)) {
+            /*console.log(contacts);
+            if (Array.isArray(contacts)) {
                 for (const contact of contacts) {
                     const additionalInfo = {
                         Odoo_Id__c: isComplete(contact.id),
