@@ -236,7 +236,7 @@ const updatePartner = async (req, res) => {
     if (!isValidEmail(email)) {
         console.log('INVALID_EMAIL: Email provided is not valid');
         await logErrorToSalesforce(conn, new Error('INVALID_EMAIL'), 'Email provided is not valid');
-        res.status(201).json({ res: 'Email provided is not valid' });
+        res.status(200).json({ res: 'Email provided is not valid' });
         return;
     }
 
