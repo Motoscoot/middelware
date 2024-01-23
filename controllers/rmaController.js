@@ -31,6 +31,8 @@ const updateRMAOrder = async (req, res) => {
       return;
     }
     
+    console.log('xxxstate ' + state);
+
     let query = `SELECT Id, Status, RecordType.Name, Notas_internas__c FROM Case WHERE External_Id__c = '${id}' LIMIT 1`;
     const result = await conn.query(query);
     var newState = '';
@@ -38,6 +40,7 @@ const updateRMAOrder = async (req, res) => {
 
     if (result.records && result.records.length > 0) {
       const caso = result.records[0];
+      console.log('xxxcaso ' + caso);
       if(state == 'to_approve')
       {
         if(caso.RecordType.Name == 'RMA - Devoluciones')
