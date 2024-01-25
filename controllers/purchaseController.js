@@ -479,8 +479,9 @@ const updatePurchase = async (req, res) => {
 
     let query = `SELECT Id, LoyaltyForce__Status__c FROM LoyaltyForce__Ticket__c WHERE LoyaltyForce__OrderNo__c = '${name}' LIMIT 1`;
     const result = await conn.query(query);
-
+    console.log("antes if");
     if (result.records && result.records.length > 0) {
+      console.log("dentro if");
       const ticket = result.records[0];
       //if(ticket.LoyaltyForce__Status__c !== state) {
         const response = await conn.sobject('LoyaltyForce__Ticket__c').update({
