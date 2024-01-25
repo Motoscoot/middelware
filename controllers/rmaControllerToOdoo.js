@@ -44,6 +44,7 @@ const newCase = async (req, res) => {
         inParams.push({
             //'id': caseID,
             'name': caseName,
+            'assigned_to': 59,
             'partner_id': partnerID,
             'product_id': productID,
             //'product_qty': productUOMQty,
