@@ -498,17 +498,17 @@ const updatePurchase = async (req, res) => {
           await logErrorToSalesforce(conn, 'UPDATE ERROR', JSON.stringify(response), null);
           res.status(201).json({ res: 'Error: Error al actualizar el estado del ticket.' });
         }
-      } else {
+      /*} else {
         console.log('El estado del ticket ya está en el valor proporcionado');
         res.status(200).json({ res: 'Operación omitida: El estado del ticket ya está en el valor proporcionado.' });
-      }
+      }*/
 
-   /*} else {
+   } else {
       console.log('No se encontró el ticket especificado');
       await logErrorToSalesforce(conn, 'GET ERROR', JSON.stringify(result), null);
       res.status(200).json({ message: 'El error ha sido registrado en Salesforce' });
       //res.status(201).json({ res: 'Error: No se encontró el ticket especificado.' });
-    }*/
+    }
   });
 };
 
