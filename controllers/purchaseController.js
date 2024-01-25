@@ -482,7 +482,7 @@ const updatePurchase = async (req, res) => {
 
     if (result.records && result.records.length > 0) {
       const ticket = result.records[0];
-      if(ticket.LoyaltyForce__Status__c !== state) {
+      //if(ticket.LoyaltyForce__Status__c !== state) {
         const response = await conn.sobject('LoyaltyForce__Ticket__c').update({
           Id: ticket.Id,
           LoyaltyForce__Status__c: state,
@@ -502,12 +502,12 @@ const updatePurchase = async (req, res) => {
         res.status(200).json({ res: 'Operación omitida: El estado del ticket ya está en el valor proporcionado.' });
       }
 
-    } else {
+   /*} else {
       console.log('No se encontró el ticket especificado');
       await logErrorToSalesforce(conn, 'GET ERROR', JSON.stringify(result), null);
       res.status(200).json({ message: 'El error ha sido registrado en Salesforce' });
       //res.status(201).json({ res: 'Error: No se encontró el ticket especificado.' });
-    }
+    }*/
   });
 };
 
