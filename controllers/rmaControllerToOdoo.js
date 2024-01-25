@@ -25,6 +25,7 @@ const newCase = async (req, res) => {
     let caseName = req.body.name;
     let partnerID = req.body.partner_id;
     let productID = '';
+    let operationID = '122'; //garantía por defecto
 
     if(req.body.product_id != null)
     {
@@ -54,7 +55,7 @@ const newCase = async (req, res) => {
             'in_warehouse_id': 1,
             'out_warehouse_id': 1,
             'location_id': 1668,
-            'operation_id': 122,
+            'operation_id': operationID,
             'create_date': new Date()
         });
 
