@@ -32,7 +32,7 @@ const updateRMAOrder = async (req, res) => {
     }
     
     console.log('xxxstate ' + state);
-
+    console.log('xxxid ' + id);
     let query = `SELECT Id, Status, RecordType.Name, Notas_internas__c FROM Case WHERE External_Id__c = '${id}' LIMIT 1`;
     console.log('xxxquery ' + query);
     const result = await conn.query(query);
@@ -136,7 +136,7 @@ const updateRMAOrder = async (req, res) => {
       } 
 
     } else {
-      console.log('No se encontró el caso especificado');
+      console.log('No se ha encontrado el caso especificado');
       await logErrorToSalesforce(conn, 'GET ERROR', JSON.stringify(result), null);
       res.status(200).json({ res: 'Error: No se encontró el caso especificado.' });
     }
