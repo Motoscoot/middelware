@@ -34,6 +34,7 @@ const updateRMAOrder = async (req, res) => {
     console.log('xxxstate ' + state);
 
     let query = `SELECT Id, Status, RecordType.Name, Notas_internas__c FROM Case WHERE External_Id__c = '${id}' LIMIT 1`;
+    console.log('xxxquery ' + query);
     const result = await conn.query(query);
     var newState = '';
     var NotasInternas = '';
