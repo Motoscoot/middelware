@@ -279,6 +279,39 @@ const updatePartner = async (req, res) => {
         console.log("antes upsert");
         try{
             const response = await conn.sobject("Account").upsert(accountData,'LoyaltyForce__External_Id__c');
+            if (!response.success) {
+           
+                const errorMessage = "error al actualizar la cuenta.";
+                await logErrorToSalesforce(conn, { message: errorMessage, stack: '' }, 'error al actualizar la cuenta.');
+    
+                console.log(response);
+                await logErrorToSalesforce(conn, new Error('UPDATE_ERROR'), JSON.stringify(response));
+                res.status(200).json({ res: 'Error: UPSERT ERROR '});
+            } else {
+                /*console.log(contacts);
+                if (Array.isArray(contacts)) {
+                    for (const contact of contacts) {
+                        const additionalInfo = {
+                            Odoo_Id__c: isComplete(contact.id),
+                            Name__c: isComplete(contact.name),
+                            Mobile__c: isComplete(contact.mobile),
+                            Phone__c: isComplete(contact.phone),
+                            Email__c: isComplete(contact.email),
+                            Nif__c: isComplete(contact.nif),
+                            Languaje__c: isComplete(contact.language),
+                            JobPosition__c: isComplete(contact.jobposition),
+                            Website__c: isComplete(contact.website),
+                            Street__c: isComplete(contact.street),
+                            City__c: isComplete(contact.city),
+                            Cp__c: isComplete(contact.cp),
+                            Account__c: response.id,
+                        };
+                        await conn.sobject("Additional_Info__c").create(additionalInfo);
+                    }
+                }   */
+                console.log(`Operación exitosa: ${response.id}`);
+                res.status(200).json({ res: response.id });
+            }
         }catch(error){
             if (error.errorCode === 'DUPLICATES_DETECTED') {
                 console.log('DUPLICATES_DETECTED: Se detectaron duplicados en Salesforce.');
@@ -294,39 +327,7 @@ const updatePartner = async (req, res) => {
         }
         console.log("después upsert");
 
-        if (!response.success) {
-           
-            const errorMessage = "error al actualizar la cuenta.";
-            await logErrorToSalesforce(conn, { message: errorMessage, stack: '' }, 'error al actualizar la cuenta.');
-
-            console.log(response);
-            await logErrorToSalesforce(conn, new Error('UPDATE_ERROR'), JSON.stringify(response));
-            res.status(200).json({ res: 'Error: UPSERT ERROR '});
-        } else {
-            /*console.log(contacts);
-            if (Array.isArray(contacts)) {
-                for (const contact of contacts) {
-                    const additionalInfo = {
-                        Odoo_Id__c: isComplete(contact.id),
-                        Name__c: isComplete(contact.name),
-                        Mobile__c: isComplete(contact.mobile),
-                        Phone__c: isComplete(contact.phone),
-                        Email__c: isComplete(contact.email),
-                        Nif__c: isComplete(contact.nif),
-                        Languaje__c: isComplete(contact.language),
-                        JobPosition__c: isComplete(contact.jobposition),
-                        Website__c: isComplete(contact.website),
-                        Street__c: isComplete(contact.street),
-                        City__c: isComplete(contact.city),
-                        Cp__c: isComplete(contact.cp),
-                        Account__c: response.id,
-                    };
-                    await conn.sobject("Additional_Info__c").create(additionalInfo);
-                }
-            }   */
-            console.log(`Operación exitosa: ${response.id}`);
-            res.status(200).json({ res: response.id });
-        }
+        
     });   
 }
           
