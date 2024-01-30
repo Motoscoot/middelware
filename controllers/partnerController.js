@@ -37,6 +37,15 @@ const newPartner = async (req, res) => {
     // Define isCompany a false por defecto
     let isCompany = false;
 
+    const conn = new jsforce.Connection({
+        oauth2: {
+            loginUrl,
+            clientId,
+            clientSecret,
+        },
+    });
+
+    
     // Verificar si customer_nif comienza con "ES" o "PT" y el siguiente valor es superior a dos
     if (typeof nif === 'string'  && (nif.startsWith('ES') || (nif.startsWith('PT') && parseInt(nif.substring(2)) > 2))) {
         isCompany = true;
@@ -50,14 +59,7 @@ const newPartner = async (req, res) => {
     }
 
 
-    const conn = new jsforce.Connection({
-        oauth2: {
-            loginUrl,
-            clientId,
-            clientSecret,
-        },
-    });
-
+    
 
 
     conn.login(sfUsername, sfPassword, async (err) => {
