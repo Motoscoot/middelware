@@ -275,7 +275,21 @@ const updatePartner = async (req, res) => {
             isCompany__c: isCompany,
         };
         console.log("antes upsert");
-        const response = await conn.sobject("Account").upsert(accountData,'LoyaltyForce__External_Id__c');
+        try{
+            const response = await conn.sobject("Account").upsert(accountData,'LoyaltyForce__External_Id__c');
+        }catch(error){
+            if (error.errorCode === 'DUPLICATES_DETECTED') {
+                console.log('DUPLICATES_DETECTED: Se detectaron duplicados en Salesforce.');
+                await logErrorToSalesforce(conn, 'DUPLICATES_DETECTED', 'Se detectaron duplicados en Salesforce.', error);
+                res.status(200).json({ res: 'Error', message: 'DUPLICATES_DETECTED' });
+                return;
+            } else {
+                console.log('Error desconocido:', error);
+                await logErrorToSalesforce(conn, 'UNKNOWN_ERROR', 'Error desconocido al crear cuenta', error);
+                res.status(200).json({ res: 'Error', message: 'Error desconocido' });
+                return;
+            }    
+        }
         console.log("después upsert");
 
         if (!response.success) {
