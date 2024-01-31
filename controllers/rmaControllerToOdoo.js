@@ -23,6 +23,7 @@ const newCase = async (req, res) => {
     console.log('Create Case');
     let caseID = req.body.id;
     let caseName = req.body.name;
+    let caseStatus = req.body.status;
     let partnerID = req.body.partner_id;
     let productID = '';
     let operationID = req.body.operacion;
@@ -56,6 +57,7 @@ const newCase = async (req, res) => {
             'out_warehouse_id': 1,
             'location_id': 1668,
             'operation_id': operationID,
+            'status': caseStatus,
             'create_date': new Date()
         });
 
