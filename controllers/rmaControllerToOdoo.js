@@ -33,6 +33,7 @@ const newCase = async (req, res) => {
         productID = req.body.product_id;
     }
     console.log('productID ' + productID);
+    console.log('caseStatus ' + caseStatus);
         
     //let productUOMQty = req.body.Quantity;
     //let productUOM = req.body.UnitOfMeasure;
