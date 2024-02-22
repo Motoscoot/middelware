@@ -75,6 +75,17 @@ const updateRMAOrder = async (req, res) => {
           newState = 'Rejected';
         }
       }
+      else if(state == 'done')
+      {
+        if(caso.RecordType.Name == 'RMA - Devoluciones')
+        {
+          newState = 'Closed';
+        }
+        else if(caso.RecordType.Name == 'RMA- Garantía')
+        {
+          newState = 'Closed';
+        }
+      }
       //actualización de notas internas
       if(description != null && description != '' && (caso.RecordType.Name == 'RMA - Devoluciones' || caso.RecordType.Name == 'RMA- Garantía'))
       {
