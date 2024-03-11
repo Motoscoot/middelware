@@ -83,7 +83,7 @@ const createProductIfNotExists = async (conn, productDetail) => {
   return resultProduct.records[0].Id;
 };
 
-const createCustomer = async (conn, email, customer_id, customer_create_date, customer_fullname, customer_nif, customer_pricelist) => {
+const createCustomer = async (conn, email, customer_id, customer_create_date, customer_fullname, customer_nif, customer_pricelist, city, street, cp) => {
   // Dividir el nombre completo en nombre y apellido
   const nameArray = customer_fullname.split(' ').map(name => name.trim());
   let customer_firstname, customer_lastname;
@@ -163,6 +163,9 @@ const createCustomer = async (conn, email, customer_id, customer_create_date, cu
         LoyaltyForce__LifecycleStage__pc:'Multiple purchases',
         //LoyaltyForce__Nif__c: customer_nif != false ? customer_nif : '',
         isCompany__c: isCompany, 
+        BillingStreet: isComplete(street),
+        BillingCity: isComplete(city),
+        BillingPostalCode: truncatePostalCode(isComplete(cp)),
         priceList__c: priceListId != null || priceListId != '' ? priceListId : 'a147S000000Iz8vQAC'
       });
       console.log('El account actualizado corresponde con ', result.records[0].PersonContactId)
@@ -186,6 +189,9 @@ const createCustomer = async (conn, email, customer_id, customer_create_date, cu
       LoyaltyForce__LifecycleStage__pc: "1st purchase",
       LoyaltyForce__Nif__c: customer_nif != false ? customer_nif : '',
       isCompany__c: isCompany,
+      BillingStreet: isComplete(street),
+      BillingCity: isComplete(city),
+      BillingPostalCode: truncatePostalCode(isComplete(cp)),
       priceList__c: priceListId != null ? priceListId : 'a147S000000Iz8vQAC' 
     };
 
@@ -265,7 +271,7 @@ const newPurchaseOrder = async (req, res) => {
     if (!x_SalesforceId ) {
 
       // Llamar al método para crear un nuevo cliente en Salesforce y asignar el accountId creado
-      accountId = await createCustomer(conn, emailArray[0], customer_id, customer_create_date, customer_name, customer_nif, customer_pricelist);
+      accountId = await createCustomer(conn, emailArray[0], customer_id, customer_create_date, customer_name, customer_nif, customer_pricelist, city, street, cp);
       if (!accountId) {
         console.log('Error al crear el cliente');
         await logErrorToSalesforce(conn, 'INSERT ERROR', JSON.stringify(res), null);
@@ -546,6 +552,12 @@ const logErrorToSalesforce = async (conn, error, additionalInfo) => {
   }
 };
 
+const truncatePostalCode = (postalCode, maxLength = 20) => {
+  if (postalCode && postalCode.length > maxLength) {
+  return postalCode.slice(0, maxLength);
+  }
+  return postalCode;
+};
 
 const isComplete = (value, isDate = false) => {
   if (isDate && value) {
