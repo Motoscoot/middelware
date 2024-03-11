@@ -233,6 +233,9 @@ const newPurchaseOrder = async (req, res) => {
     x_SalesforceId,
     delivery_address,
     invoice_address,
+    city,
+    street,
+    cp,
     activity_state,
     invoice_status,
     username: sfUsername,
@@ -366,6 +369,10 @@ const newPurchaseOrder = async (req, res) => {
       LoyaltyForce__OrderCurrencyTotal__c : isComplete(amount_tax),
       // Agrega otros campos aquí como LoyaltyForce_Type__c, etc.
     };
+
+    console.log('city ' + city);
+    console.log('street ' + street);
+    console.log('cp  ' + cp);
 
     const response = await conn
       .sobject("LoyaltyForce__Ticket__c")
