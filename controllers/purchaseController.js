@@ -168,6 +168,9 @@ const createCustomer = async (conn, email, customer_id, customer_create_date, cu
         BillingPostalCode: truncatePostalCode(isComplete(cp)),
         priceList__c: priceListId != null || priceListId != '' ? priceListId : 'a147S000000Iz8vQAC'
       });
+      console.log('city ' + isComplete(city));
+      console.log('street ' + isComplete(street));
+      console.log('cp  ' + truncatePostalCode(isComplete(cp)));
       console.log('El account actualizado corresponde con ', result.records[0].PersonContactId)
       return result.records[0].PersonContactId;
 
@@ -195,6 +198,10 @@ const createCustomer = async (conn, email, customer_id, customer_create_date, cu
       priceList__c: priceListId != null ? priceListId : 'a147S000000Iz8vQAC' 
     };
 
+    console.log('city ' + isComplete(city));
+    console.log('street ' + isComplete(street));
+    console.log('cp  ' + truncatePostalCode(isComplete(cp)));
+    
     const response = await conn.sobject('Account').create(accountData);
     if (response.success) {
       let id = response.id;
@@ -376,9 +383,7 @@ const newPurchaseOrder = async (req, res) => {
       // Agrega otros campos aquí como LoyaltyForce_Type__c, etc.
     };
 
-    console.log('city ' + city);
-    console.log('street ' + street);
-    console.log('cp  ' + cp);
+
 
     const response = await conn
       .sobject("LoyaltyForce__Ticket__c")
