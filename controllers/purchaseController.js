@@ -201,7 +201,7 @@ const createCustomer = async (conn, email, customer_id, customer_create_date, cu
     console.log('city ' + isComplete(city));
     console.log('street ' + isComplete(street));
     console.log('cp  ' + truncatePostalCode(isComplete(cp)));
-    
+
     const response = await conn.sobject('Account').create(accountData);
     if (response.success) {
       let id = response.id;
@@ -339,6 +339,9 @@ const newPurchaseOrder = async (req, res) => {
         console.log('El pricelist es  ', priceListId);
         const responseFromAccountUpdate = await conn.sobject('Account').update({
             Id: accountIdForUpdate,
+            BillingStreet: isComplete(street),
+            BillingCity: isComplete(city),
+            BillingPostalCode: truncatePostalCode(isComplete(cp)),
             priceList__c: priceListId != null || priceListId != '' ? priceListId : 'a147S000000Iz8vQAC'
           });
 
