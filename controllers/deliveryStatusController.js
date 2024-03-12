@@ -78,7 +78,7 @@ const newDeliveryStatus = async (req, res) => {
       Carrier_tracking_REF__c : carrier_tracking_ref,
       };
 
-      console.log(`Datos para UPSERT/CREATE en Salesforce: ${JSON.stringify(deliveryStatusData)}`);
+      console.log(`Datos para UPSERT/CREATE en Salesforce sin pedido: ${JSON.stringify(deliveryStatusData)}`);
 
       if (x_SalesforceId) {
         console.log(`UPSERT usando x_SalesforceId: ${x_SalesforceId}`);
