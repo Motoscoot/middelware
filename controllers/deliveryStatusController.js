@@ -55,7 +55,7 @@ const newDeliveryStatus = async (req, res) => {
 
   const sfSaleOrderId = await findLoyaltyForceTicketIdByOrderNo(conn, origin);
 
-  if (!sfSaleOrderId) {
+  /*if (!sfSaleOrderId) {
     console.error("El campo 'sfSaleOrderId' está vacío.");
     // Registro del error en Salesforce
     const errorMessage = "El campo 'sfSaleOrderId' está vacío.";
@@ -63,38 +63,73 @@ const newDeliveryStatus = async (req, res) => {
     // Devolvemos un estado 200 a Odoo a pesar del error
     res.status(200).json({ message: 'El error ha sido registrado en Salesforce' });
     return;
-  }
+  }*/
   
-  const deliveryStatusData = {
-    Compra__c: sfSaleOrderId,
-    Name: name,
-    Delivery_Address__c: partner_address,
-    Status__c: status,
-    Odoo_Id__c: picking_id,
-    Date__c: new Date(scheduled_date),
-    Carrier_tracking_REF__c : carrier_tracking_ref,
-  };
-
-  console.log(`Datos para UPSERT/CREATE en Salesforce: ${JSON.stringify(deliveryStatusData)}`);
-
   let response;
+  
+  if (!sfSaleOrderId)
+  {
+      const deliveryStatusData = {
+      Name: name,
+      Delivery_Address__c: partner_address,
+      Status__c: status,
+      Odoo_Id__c: picking_id,
+      Date__c: new Date(scheduled_date),
+      Carrier_tracking_REF__c : carrier_tracking_ref,
+      };
 
-  if (x_SalesforceId) {
-    console.log(`UPSERT usando x_SalesforceId: ${x_SalesforceId}`);
-    deliveryStatusData.Id = x_SalesforceId;
-    response = await conn.sobject("Delivery_status__c").upsert(deliveryStatusData, 'Id');
-  } else {
-    const existingSfId = await findDeliveryStatusByOdooId(conn, picking_id);
-    if (existingSfId) {
-      console.log(`Registro ya existente encontrado con ID: ${existingSfId}`);
-      deliveryStatusData.Id = existingSfId;
-      response = await conn.sobject("Delivery_status__c").upsert(deliveryStatusData, 'Id');
-    } else {
-      console.log('Creando un nuevo registro en Salesforce...');
-      response = await conn.sobject("Delivery_status__c").create(deliveryStatusData);
+      console.log(`Datos para UPSERT/CREATE en Salesforce: ${JSON.stringify(deliveryStatusData)}`);
+
+      if (x_SalesforceId) {
+        console.log(`UPSERT usando x_SalesforceId: ${x_SalesforceId}`);
+        deliveryStatusData.Id = x_SalesforceId;
+        response = await conn.sobject("Delivery_status__c").upsert(deliveryStatusData, 'Id');
+      } else {
+        const existingSfId = await findDeliveryStatusByOdooId(conn, picking_id);
+        if (existingSfId) {
+          console.log(`Registro ya existente encontrado con ID: ${existingSfId}`);
+          deliveryStatusData.Id = existingSfId;
+          response = await conn.sobject("Delivery_status__c").upsert(deliveryStatusData, 'Id');
+        } else {
+          console.log('Creando un nuevo registro en Salesforce...');
+          response = await conn.sobject("Delivery_status__c").create(deliveryStatusData);
+        }
+        
     }
-    
   }
+  else
+  {
+    const deliveryStatusDataSF = {
+      Compra__c: sfSaleOrderId,
+      Name: name,
+      Delivery_Address__c: partner_address,
+      Status__c: status,
+      Odoo_Id__c: picking_id,
+      Date__c: new Date(scheduled_date),
+      Carrier_tracking_REF__c : carrier_tracking_ref,
+    };
+
+    console.log(`Datos para UPSERT/CREATE en Salesforce: ${JSON.stringify(deliveryStatusDataSF)}`);
+
+      if (x_SalesforceId) {
+        console.log(`UPSERT usando x_SalesforceId: ${x_SalesforceId}`);
+        deliveryStatusDataSF.Id = x_SalesforceId;
+        response = await conn.sobject("Delivery_status__c").upsert(deliveryStatusDataSF, 'Id');
+      } else {
+        const existingSfId = await findDeliveryStatusByOdooId(conn, picking_id);
+        if (existingSfId) {
+          console.log(`Registro ya existente encontrado con ID: ${existingSfId}`);
+          deliveryStatusDataSF.Id = existingSfId;
+          response = await conn.sobject("Delivery_status__c").upsert(deliveryStatusDataSF, 'Id');
+        } else {
+          console.log('Creando un nuevo registro en Salesforce...');
+          response = await conn.sobject("Delivery_status__c").create(deliveryStatusDataSF);
+        }
+        
+      }
+  }
+
+  
 
   console.log(`Respuesta de Salesforce: ${JSON.stringify(response)}`);
 
