@@ -55,7 +55,7 @@ const newDeliveryStatus = async (req, res) => {
 
   const sfSaleOrderId = await findLoyaltyForceTicketIdByOrderNo(conn, origin);
 
-  if (!sfSaleOrderId) {
+  /*if (!sfSaleOrderId) {
     console.error("El campo 'sfSaleOrderId' está vacío.");
     // Registro del error en Salesforce
     const errorMessage = "El campo 'sfSaleOrderId' está vacío.";
@@ -63,11 +63,11 @@ const newDeliveryStatus = async (req, res) => {
     // Devolvemos un estado 200 a Odoo a pesar del error
     res.status(200).json({ message: 'El error ha sido registrado en Salesforce' });
     return;
-  }
+  }*/
   
   let response;
   
-  /*if (!sfSaleOrderId)
+  if (!sfSaleOrderId)
   {
       const deliveryStatusData = {
       Name: name,
@@ -99,7 +99,7 @@ const newDeliveryStatus = async (req, res) => {
     }
   }
   else
-  {*/
+  {
     const deliveryStatusDataSF = {
       Compra__c: sfSaleOrderId,
       Name: name,
@@ -128,7 +128,7 @@ const newDeliveryStatus = async (req, res) => {
         }
         
       }
- // }
+  }
 
   
 
