@@ -76,6 +76,7 @@ const newDeliveryStatus = async (req, res) => {
       Odoo_Id__c: picking_id,
       Date__c: new Date(scheduled_date),
       Carrier_tracking_REF__c : carrier_tracking_ref,
+      Origin__c : origin,
       };
 
       console.log(`Datos para UPSERT/CREATE en Salesforce sin pedido: ${JSON.stringify(deliveryStatusData)}`);
