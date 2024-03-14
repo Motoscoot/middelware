@@ -386,84 +386,93 @@ const newPurchaseOrder = async (req, res) => {
       // Agrega otros campos aquí como LoyaltyForce_Type__c, etc.
     };
 
-
+    
 
     const response = await conn
       .sobject("LoyaltyForce__Ticket__c")
-      .create(purchaseOrderData);
+      .upsert(purchaseOrderData, 'LoyaltyForce__OrderNo__c');
 
     if (!response.success) {
       await logErrorToSalesforce(conn, 'CREATE ERROR', JSON.stringify(response), null);
       res.status(201).json({ res: 'Error: Error al insertar el ticket. '});
     } else {
       console.log(`Operación exitosa: ${response.id}`);
-      let index = 0;
-      for (const line of order_line) {
-        index ++;
-        const productId = await getSalesforceId(
-          conn,
-          "LoyaltyForce__Product__c",
-          "LoyaltyForce__ProductCode__c",
-          line.product_id
-        );
-        
-        //let productIdObtained =  productId ? productId : null;
-        let productIdObtained =  productId ? productId.Id : null;
-        if (!productIdObtained) {
-          // Crear el producto y obtener el productId
-          const productDetail = {
-            name: isCompleteProduct(line.productDetail_name),
-            id : line.productDetail_id,
-            description : line.productDetail_description,
-            extra_code : line.productDetail_extra_code,
-            price : line.productDetail_price, 
-            default_code : line.productDetail_default_code,
-            categ_id : line.productDetail_categ_id,
-            magentoId : line.productDetail_magentoId, 
-            username: sfUsername,
-            password: sfPassword,
-            clientID: clientId,
-            clientSecret : clientSecret,
-            loginUrl : loginUrl
-          };
-          //productIdObtained = await createProductAndGetId(conn, productDetail);
-          productIdObtained = await createProductAndGetId(conn, { ...productDetail });
-        }    
-    
-        const ticketLineData = {
-
-          //LoyaltyForce__CategoryId__c: categoryId,
-          LoyaltyForce__CustomerId__c: accountId,
-          LoyaltyForce__LineNumber__c: index,
-          LoyaltyForce__LineTotalCurrency__c:
-            line.price_unit * line.product_uom_qty,
-          LoyaltyForce__OrderId__c: response.id,
+      //inserción lineas
+      //comprobamos si existe el ticket (puede facturarse en odoo el mismo pedido varias veces)
+      //si existe no se insertan las líneas (no hay campo external en líneas para hacer upsert)
+      let queryTicketExistente = `SELECT Id, LoyaltyForce__OrderNo__c FROM LoyaltyForce__Ticket__c WHERE LoyaltyForce__OrderNo__c = '${name}' LIMIT 1`;
+      const resultTicketExistente = await conn.query(queryTicketExistente);
+      console.log('Se trata de comprobar si existen tickets con ese order number', resultTicketExistente.records );
+      if(resultTicketExistente.records == null || resultTicketExistente.records.length == 0){
+      
+        let index = 0;
+        for (const line of order_line) {
+          index ++;
+          const productId = await getSalesforceId(
+            conn,
+            "LoyaltyForce__Product__c",
+            "LoyaltyForce__ProductCode__c",
+            line.product_id
+          );
           
-          LoyaltyForce__ProductId__c: productIdObtained,
-          LoyaltyForce__Quantity__c: line.product_uom_qty,
-          LoyaltyForce__UnitPriceEur__c: line.price_unit,
-          LoyaltyForce_ProductUOM__c: line.product_uom.name,
-          LoyaltyForce__LineTotalEur__c: line.price_unit * line.product_uom_qty,
-          //LoyaltyForce_Taxes__c: line.taxes_id.map((tax) => tax.name).join(", "),
-          LoyaltyForce_Description__c: isComplete(line.name),
-          LoyaltyForce_PriceSubtotal__c: line.price_subtotal,
-          LoyaltyForce_Discount__c: line.discount,
-          Shipping_Cost__c: line.shipping_cost,
-        };
+          //let productIdObtained =  productId ? productId : null;
+          let productIdObtained =  productId ? productId.Id : null;
+          if (!productIdObtained) {
+            // Crear el producto y obtener el productId
+            const productDetail = {
+              name: isCompleteProduct(line.productDetail_name),
+              id : line.productDetail_id,
+              description : line.productDetail_description,
+              extra_code : line.productDetail_extra_code,
+              price : line.productDetail_price, 
+              default_code : line.productDetail_default_code,
+              categ_id : line.productDetail_categ_id,
+              magentoId : line.productDetail_magentoId, 
+              username: sfUsername,
+              password: sfPassword,
+              clientID: clientId,
+              clientSecret : clientSecret,
+              loginUrl : loginUrl
+            };
+            //productIdObtained = await createProductAndGetId(conn, productDetail);
+            productIdObtained = await createProductAndGetId(conn, { ...productDetail });
+          }    
+      
+          const ticketLineData = {
 
-        const ticketLineResponse = await conn
-          .sobject("LoyaltyForce__TicketLine__c")
-          .create(ticketLineData);
-        if (!ticketLineResponse.success) {
-          console.log(ticketLineResponse);
-          await logErrorToSalesforce(conn, 'INSERT ERROR', JSON.stringify(res), null);
-          res.status(201).json({ res: 'Error: Error al insertar la linea de ticket. '});
-          return;
+            //LoyaltyForce__CategoryId__c: categoryId,
+            LoyaltyForce__CustomerId__c: accountId,
+            LoyaltyForce__LineNumber__c: index,
+            LoyaltyForce__LineTotalCurrency__c:
+              line.price_unit * line.product_uom_qty,
+            LoyaltyForce__OrderId__c: response.id,
+            
+            LoyaltyForce__ProductId__c: productIdObtained,
+            LoyaltyForce__Quantity__c: line.product_uom_qty,
+            LoyaltyForce__UnitPriceEur__c: line.price_unit,
+            LoyaltyForce_ProductUOM__c: line.product_uom.name,
+            LoyaltyForce__LineTotalEur__c: line.price_unit * line.product_uom_qty,
+            //LoyaltyForce_Taxes__c: line.taxes_id.map((tax) => tax.name).join(", "),
+            LoyaltyForce_Description__c: isComplete(line.name),
+            LoyaltyForce_PriceSubtotal__c: line.price_subtotal,
+            LoyaltyForce_Discount__c: line.discount,
+            Shipping_Cost__c: line.shipping_cost,
+          };
+
+          const ticketLineResponse = await conn
+            .sobject("LoyaltyForce__TicketLine__c")
+            .create(ticketLineData);
+          if (!ticketLineResponse.success) {
+            console.log(ticketLineResponse);
+            await logErrorToSalesforce(conn, 'INSERT ERROR', JSON.stringify(res), null);
+            res.status(201).json({ res: 'Error: Error al insertar la linea de ticket. '});
+            return;
+          }
         }
-      }
 
-      res.status(200).json({ res: response.id });
-    }
+        res.status(200).json({ res: response.id });
+      }
+    } 
   });
 };
 
