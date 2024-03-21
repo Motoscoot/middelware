@@ -64,7 +64,7 @@ const updateRMAOrder = async (req, res) => {
           newState = 'Authorized';
         }
       }
-      else if(state == 'cancelled')
+      else if(state == 'canceled')
       {
         if(caso.RecordType.Name == 'RMA - Devoluciones')
         {
