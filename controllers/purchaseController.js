@@ -271,6 +271,21 @@ const newPurchaseOrder = async (req, res) => {
       console.log(err);
       return;
     }
+
+    //comprobar si existe el ticket en SF, si es así se borra previamente. Puede ocurrir que un mismo pedido de venta se pase a afacturado más de una vez en Odoo porque se ha hecho una factura rectificativa
+    //y así no se crearían más de un ticket de compra en SF con el mismo Order Number
+    let queryDuplicado = `SELECT Id, LoyaltyForce__Status__c FROM LoyaltyForce__Ticket__c WHERE LoyaltyForce__OrderNo__c = '${name}' LIMIT 1`;
+    const resultDuplicado = await conn.query(queryDuplicado);
+    console.log("antes if duplicados");
+    if (resultDuplicado.records && resultDuplicado.records.length > 0) {
+       console.log("dentro if duplicados");
+       const ticketDuplicado = resultDuplicado.records[0];
+       const responseDuplicado = await conn.sobject('LoyaltyForce__Ticket__c').delete(
+          ticketDuplicado.Id
+       );
+       //conn.tooling.sobject('FieldSet').find({ DeveloperName: fieldSetName }).destroy()
+    }
+
     // Comprobar si customer_email contiene '//', si es así, dividirlo en un array de correos electrónicos
     const emailArray = customer_email != null && customer_email != '' && customer_email.includes('//') ? customer_email.split('//').map(email => email.trim()) : [customer_email];
     let accountId;
