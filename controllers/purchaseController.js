@@ -283,7 +283,12 @@ const newPurchaseOrder = async (req, res) => {
        const responseDuplicado = await conn.sobject('LoyaltyForce__Ticket__c').delete(
           ticketDuplicado.Id
        );
-       //conn.tooling.sobject('FieldSet').find({ DeveloperName: fieldSetName }).destroy()
+       if(responseDuplicado.success) {
+        console.log(`ticket duplicado borrado con éxito: ${responseDuplicado.id}`);
+      } else {
+        console.log('Error al borrar el ticket duplicado');
+        await logErrorToSalesforce(conn, 'Delete ERROR', JSON.stringify(responseDuplicado), null);
+      }
     }
 
     // Comprobar si customer_email contiene '//', si es así, dividirlo en un array de correos electrónicos
