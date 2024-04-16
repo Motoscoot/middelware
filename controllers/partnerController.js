@@ -6,6 +6,7 @@ const isValidEmail = (email) => {
 };
 
 const newPartner = async (req, res) => {
+    console.log("Nueva llamada entrante - newPartner");
     const {
         name, id, email, phone, mobile, nif, language, jobposition, website,
         street, city, cp, country, state, username: sfUsername, password: sfPassword, clientID: clientId,
@@ -46,7 +47,7 @@ const newPartner = async (req, res) => {
     });
 
     
-    // Verificar si customer_nif comienza con "ES" o "PT" y el siguiente valor es superior a dos
+    // Verificar si customer_nif comienza con "ES" o "PT" y el siguiente valor es superior a dos.
     if (typeof nif === 'string'  && (nif.startsWith('ES') || (nif.startsWith('PT') && parseInt(nif.substring(2)) > 2))) {
         isCompany = true;
       }
