@@ -8,7 +8,7 @@ const isValidEmail = (email) => {
 const newPartner = async (req, res) => {
     const {
         name, id, email, phone, mobile, nif, language, jobposition, website,
-        street, city, cp, username: sfUsername, password: sfPassword, clientID: clientId,
+        street, city, cp, country, state, username: sfUsername, password: sfPassword, clientID: clientId,
         clientSecret, loginUrl, contacts, create_date,
     } = req.body;
 
@@ -90,6 +90,8 @@ const newPartner = async (req, res) => {
             Website: isComplete(website),
             LoyaltyForce__Nif__c: isComplete(nif),
             BillingStreet: isComplete(street),
+            BillingCountry: isComplete(country),
+            BillingState: isComplete(state),
             BillingCity: isComplete(city),
             BillingPostalCode: isComplete(cp),
             Odoo_creation_date__c : isComplete(create_date),
@@ -195,7 +197,7 @@ const updatePartner = async (req, res) => {
 
     const {
         x_SalesforceId, id, name, email, phone, mobile, nif, language, jobposition, website,
-        street, city, cp, username: sfUsername, password: sfPassword, clientID: clientId,
+        street, city, cp, country, state, username: sfUsername, password: sfPassword, clientID: clientId,
         clientSecret, loginUrl,
     } = req.body;
 
@@ -268,6 +270,8 @@ const updatePartner = async (req, res) => {
             LoyaltyForce__Nif__c: isComplete(nif),
             BillingStreet: isComplete(street),
             BillingCity: isComplete(city),
+            BillingCountry: isComplete(country),
+            BillingState: isComplete(state),
             BillingPostalCode: truncatePostalCode(isComplete(cp)),
             LoyaltyForce__Languages__pc: isComplete(language),
             LoyaltyForce__External_Id__c: isComplete(email),
