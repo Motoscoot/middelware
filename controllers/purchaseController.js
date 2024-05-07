@@ -153,6 +153,12 @@ const createCustomer = async (conn, email, customer_id, customer_create_date, cu
     console.log('El Id para la cuenta recuperada es : ' + id);
     let query = `SELECT Id, PersonContactId FROM Account WHERE PersonContactId = '${id}' LIMIT 1`;
     const result = await conn.query(query);
+    let queryCompra = `SELECT Id, LoyaltyForce__CustomerId__c FROM LoyaltyForce__Ticket__c WHERE LoyaltyForce__CustomerId__c = '${id}' LIMIT 1`;
+    const resultCompra = await conn.query(queryCompra);
+    const LCStage = '1st purchase';
+    if(resultCompra.records && resultCompra.records.length > 0){
+      LCStage = 'Multiple purchases'
+    }
     if(result.records && result.records.length > 0){
       console.log('Se actualiza la tarifa con id' , priceListId);
       await conn.sobject('Account').update({
@@ -160,7 +166,7 @@ const createCustomer = async (conn, email, customer_id, customer_create_date, cu
         FirstName: customer_firstname,
         LastName: customer_lastname,
         Odoo_creation_date__c: customer_create_date,
-        LoyaltyForce__LifecycleStage__pc:'Multiple purchases',
+        LoyaltyForce__LifecycleStage__pc: LCStage,
         //LoyaltyForce__Nif__c: customer_nif != false ? customer_nif : '',
         isCompany__c: isCompany, 
         BillingStreet: isComplete(street),
@@ -189,7 +195,7 @@ const createCustomer = async (conn, email, customer_id, customer_create_date, cu
       PersonEmail: email,
       LoyaltyForce__External_Id__c : email,
       Odoo_creation_date__c : customer_create_date, 
-      LoyaltyForce__LifecycleStage__pc: "1st purchase",
+      LoyaltyForce__LifecycleStage__pc: '1st purchase',
       LoyaltyForce__Nif__c: customer_nif != false ? customer_nif : '',
       isCompany__c: isCompany,
       BillingStreet: isComplete(street),
