@@ -85,6 +85,7 @@ const createProductIfNotExists = async (conn, productDetail) => {
 
 const createCustomer = async (conn, email, customer_id, customer_create_date, customer_fullname, customer_nif, customer_pricelist, city, street, cp) => {
   // Dividir el nombre completo en nombre y apellido
+  console.log('createCustomer');
   const nameArray = customer_fullname.split(' ').map(name => name.trim());
   let customer_firstname, customer_lastname;
 
