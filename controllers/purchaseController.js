@@ -155,7 +155,7 @@ const createCustomer = async (conn, email, customer_id, customer_create_date, cu
     const result = await conn.query(query);
     let queryCompra = `SELECT Id, LoyaltyForce__CustomerId__c FROM LoyaltyForce__Ticket__c WHERE LoyaltyForce__CustomerId__c = '${id}' LIMIT 1`;
     const resultCompra = await conn.query(queryCompra);
-    const LCStage = '1st purchase';
+    let LCStage = '1st purchase';
     if(resultCompra.records && resultCompra.records.length > 0){
       LCStage = 'Multiple purchases'
     }
