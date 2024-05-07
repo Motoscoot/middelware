@@ -390,7 +390,8 @@ const newPurchaseOrder = async (req, res) => {
       LoyaltyForce__OrderTotalItems__c: order_line.length,
       LoyaltyForce__OrderTotalEur__c: isComplete(amount_total),
       LoyaltyForce__OrderCurrency__c: currency_id == 1 ? "EUR" : "USD",
-      LoyaltyForce__Status__c: isComplete(state),
+      LoyaltyForce__Status__c: 'In loyalty program',//Loyalty status = si el account viene de Odoo = In loyalty program
+      //LoyaltyForce__Status__c: isComplete(state),
       Amount_Untaxed__c: isComplete(amount_untaxed),
       Amount_Tax__c: isComplete(amount_tax),
       LoyaltyForce__DiscountCodeValue__c: isComplete(discount),
