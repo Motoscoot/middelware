@@ -160,7 +160,7 @@ const createCustomer = async (conn, email, customer_id, customer_create_date, cu
     //if(resultCompra.records && resultCompra.records.length > 0){
      // LCStage = 'Multiple purchases'
     //}
-    console.log('El LCStage es : ' + LCStage);
+    
     if(result.records && result.records.length > 0){
       console.log('Se actualiza la tarifa con id' , priceListId);
       await conn.sobject('Account').update({
