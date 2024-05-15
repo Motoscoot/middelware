@@ -323,7 +323,7 @@ const newPurchaseOrder = async (req, res) => {
           accountId = result.records[0].PersonContactId;
           accountIdForUpdate = result.records[0].Id;
         }else{
-          let query = `SELECT Id, PersonContactId FROM Account WHERE LoyaltyForce__External_Id__c = '${emailArray[0]}' LIMIT 1`;
+          let query = `SELECT Id, PersonContactId, PersonEmail FROM Account WHERE PersonEmail = '${emailArray[0]}' LIMIT 1`;
           const result = await conn.query(query);
           if (result.records && result.records.length > 0) {
             accountId = result.records[0].PersonContactId;
