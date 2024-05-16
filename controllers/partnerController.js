@@ -99,7 +99,7 @@ const newPartner = async (req, res) => {
             LoyaltyForce__Languages__pc: isComplete(language),
             LoyaltyForce__External_Id__c: isComplete(email),
             LoyaltyForce__SourceChannel__pc: "Ecommerce",
-            LoyaltyForce__LoyaltyStatus__pc: "InLoyalty",
+            //LoyaltyForce__LoyaltyStatus__pc: "InLoyalty",
             LoyaltyForce__LifecycleStage__pc: "Customer account",
             isCompany__c: isCompany,
         };
@@ -277,7 +277,7 @@ const updatePartner = async (req, res) => {
             LoyaltyForce__Languages__pc: isComplete(language),
             LoyaltyForce__External_Id__c: isComplete(email),
             LoyaltyForce__SourceChannel__pc: "Ecommerce",
-            LoyaltyForce__LoyaltyStatus__pc: "InLoyalty",
+            //LoyaltyForce__LoyaltyStatus__pc: "InLoyalty",
             LoyaltyForce__LifecycleStage__pc: "Customer account",
             isCompany__c: isCompany,
         };
