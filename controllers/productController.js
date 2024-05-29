@@ -56,6 +56,7 @@ const newProduct = async (req, res) => {
     description,
     extra_code,
     price,
+    standard_price,
     default_code,
     categ_id,
     magentoId,
@@ -102,7 +103,7 @@ const newProduct = async (req, res) => {
       Name: isCompleteProduct(name),
       LoyaltyForce__ProductDescription__c: isComplete(description),
       LoyaltyForce__SKU__c: isComplete(default_code),
-      LoyaltyForce__StandardPriceEur__c: isComplete(price),
+      LoyaltyForce__StandardPriceEur__c: isComplete(standard_price),
       LoyaltyForce__CategoryCode1__c: sfCategoryId,
     };
 
@@ -146,6 +147,7 @@ const updateProduct = async (req, res) => {
     description,
     list_price,
     price,
+    standard_price,
     default_code,
     type,
     categ_id,
@@ -194,7 +196,7 @@ const updateProduct = async (req, res) => {
       LoyaltyForce__ProductDescription__c: isComplete(description),
       LoyaltyForce__SKU__c: isComplete(default_code),
       //o lst_price
-      LoyaltyForce__StandardPriceEur__c: isComplete(price),
+      LoyaltyForce__StandardPriceEur__c: isComplete(standard_price),
       LoyaltyForce__CategoryCode1__c: sfCategoryId,
     };
 
