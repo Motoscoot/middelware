@@ -278,7 +278,7 @@ const updatePartner = async (req, res) => {
             LoyaltyForce__External_Id__c: isComplete(email),
             LoyaltyForce__SourceChannel__pc: "Ecommerce",
             //LoyaltyForce__LoyaltyStatus__pc: "InLoyalty",
-            LoyaltyForce__LifecycleStage__pc: "Customer account",
+            //LoyaltyForce__LifecycleStage__pc: "Customer account",
             isCompany__c: isCompany,
         };
         console.log("antes upsert");
